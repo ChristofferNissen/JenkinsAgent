@@ -22,17 +22,15 @@ pipeline {
       }
     }
     
-    stage('Parallel Excution') {
-        stage('build docker') {
-          options {
-            skipDefaultCheckout()
-          }
-          steps {
-            unstash 'code'
-            sh 'base/build.sh ${BUILD_NUMBER}'
-	    sh 'docker-jenkins-agent/build.sh ${BUILD_NUMBER}'
-          }
-        }
+    stage('Build docker') {
+      options {
+        skipDefaultCheckout()
+      }
+      steps {
+        unstash 'code'
+        sh 'base/build.sh ${BUILD_NUMBER}'
+        sh 'docker-jenkins-agent/build.sh ${BUILD_NUMBER}'
+      }
     }
 
     stage('Push to Dockerhub') {

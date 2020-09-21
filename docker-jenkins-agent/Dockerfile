@@ -67,7 +67,10 @@ RUN python3 --version
 # INSTALL DOCKER
 RUN apt install -y apt-transport-https ca-certificates curl software-properties-common
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-RUN add-apt-repository "deb [arch=armhf] https://download.docker.com/linux/ubuntu bionic stable"
+RUN add-apt-repository \
+   "deb [arch=armhf] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
 RUN apt-get update
 RUN apt-cache policy docker-ce
 RUN apt install docker-ce -y
@@ -79,5 +82,10 @@ RUN docker --version
 #COPY --from=root /usr/bin/faas-cli /usr/bin/faas-cli
 COPY --from=builder /go/src/github.com/openfaas/faas-cli/faas-cli               /usr/bin/
 RUN ln -sf /usr/bin/faas-cli /usr/local/bin/faas
-ENV PATH=$PATH:/usr/bin/
+ENV PATH="$PATH:/usr/bin/"
+RUN faas-cli
+
+# FINAL TESTS
+RUN docker-compose --version
+RUN docker --version
 RUN faas-cli

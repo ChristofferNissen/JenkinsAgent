@@ -15,7 +15,7 @@ WORKDIR /go/src/github.com/openfaas/faas-cli
 COPY faas-cli/ .
 
 # Run a gofmt and exclude all vendored code.
-RUN test -z "$(gofmt -l $(find . -type f -name '*.go' -not -path "./vendor/*"))" || { echo "Run \"gofmt -s -w\" on your Golang code"; exit 1; }
+#RUN test -z "$(gofmt -l $(find . -type f -name '*.go' -not -path "./vendor/*"))" || { echo "Run \"gofmt -s -w\" on your Golang code"; exit 1; }
 
 # ldflags "-s -w" strips binary
 # ldflags -X injects commit version into binary

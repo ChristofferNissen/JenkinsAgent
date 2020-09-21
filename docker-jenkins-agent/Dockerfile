@@ -12,7 +12,7 @@ WORKDIR /usr/bin/
 COPY --from=license-check /license-check /usr/bin/
 
 WORKDIR /go/src/github.com/openfaas/faas-cli
-COPY docker-jenkins-agent/faas-cli/ .
+COPY faas-cli/ .
 
 # Run a gofmt and exclude all vendored code.
 RUN test -z "$(gofmt -l $(find . -type f -name '*.go' -not -path "./vendor/*"))" || { echo "Run \"gofmt -s -w\" on your Golang code"; exit 1; }

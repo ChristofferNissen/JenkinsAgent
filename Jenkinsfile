@@ -31,7 +31,7 @@ pipeline {
       steps {
         unstash 'code'
 	sh 'ls -lah docker-jenkins-agent/'
- 	sh 'ls -lah docker-jenkins-agent/faas-cli/'
+ 	sh 'ls -lah docker-jenkins-agent/faas-cli/faas-cli'
         sh 'base/build.sh ${BUILD_NUMBER}'
         sh 'docker-jenkins-agent/build.sh ${BUILD_NUMBER}'
       }

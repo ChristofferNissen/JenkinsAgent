@@ -30,7 +30,7 @@ pipeline {
       }
       steps {
         unstash 'code'
-	sh 'git clone https://github.com/openfaas/faas-cli.git docker-jenkins-agent/'
+	sh 'git clone https://github.com/openfaas/faas-cli.git docker-jenkins-agent/faas-cli'
         sh 'ls -lah docker-jenkins-agent/'
  	sh 'ls -lah docker-jenkins-agent/faas-cli/'
 

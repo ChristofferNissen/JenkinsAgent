@@ -11,7 +11,8 @@ pipeline {
 
     stage('clone down') {
       steps {
-	sh 'git clone https://github.com/openfaas/faas-cli.git docker-jenkins-agent/faas-cli'
+	sh 'git clone https://github.com/openfaas/faas-cli.git'
+	sh 'mv faas-cli docker-jenkins-agent/faas-cli'
         stash name: 'code' //, excludes: '.git'
       }
       post {
@@ -29,6 +30,7 @@ pipeline {
       }
       steps {
         unstash 'code'
+	sh 'ls -lah docker-jenkins-agent/'
         sh 'base/build.sh ${BUILD_NUMBER}'
         sh 'docker-jenkins-agent/build.sh ${BUILD_NUMBER}'
       }

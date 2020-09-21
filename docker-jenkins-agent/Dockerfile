@@ -82,7 +82,8 @@ RUN docker --version
 #COPY --from=root /usr/bin/faas-cli /usr/bin/faas-cli
 COPY --from=builder /go/src/github.com/openfaas/faas-cli/faas-cli               /usr/bin/
 RUN ln -sf /usr/bin/faas-cli /usr/local/bin/faas
-ENV PATH="$PATH:/usr/bin/"
+#ENV PATH="$PATH:/usr/bin/"
+RUN export PATH="$PATH:/usr/bin/"
 RUN faas-cli
 
 # FINAL TESTS

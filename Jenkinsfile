@@ -1,7 +1,9 @@
 pipeline {
+  
   agent {
     label 'arm'
   }
+
   environment {
     docker_username='stifstof'
     test_server='91.100.23.100'
@@ -11,8 +13,8 @@ pipeline {
 
     stage('clone down') {
       steps {
-	//sh 'git clone https://github.com/openfaas/faas-cli.git'
-	//sh 'ln -s faas-cli docker-jenkins-agent/'
+	      //sh 'git clone https://github.com/openfaas/faas-cli.git'
+	      //sh 'ln -s faas-cli docker-jenkins-agent/'
         stash name: 'code', excludes: '.git'
       }
       post {
@@ -30,9 +32,9 @@ pipeline {
       }
       steps {
         unstash 'code'
-	sh 'git clone https://github.com/openfaas/faas-cli.git docker-jenkins-agent/faas-cli'
+      	sh 'git clone https://github.com/openfaas/faas-cli.git docker-jenkins-agent/faas-cli'
         sh 'ls -lah docker-jenkins-agent/'
- 	sh 'ls -lah docker-jenkins-agent/faas-cli/'
+ 	      sh 'ls -lah docker-jenkins-agent/faas-cli/'
 
         sh 'base/build.sh ${BUILD_NUMBER}'
         sh 'docker-jenkins-agent/build.sh ${BUILD_NUMBER}'
@@ -51,10 +53,8 @@ pipeline {
         unstash 'code' //unstash the repository code
         sh 'echo "$DOCKERCREDS_PSW" | docker login -u "$DOCKERCREDS_USR" --password-stdin' //login to docker hub with the credentials above
         sh 'base/push.sh ${BUILD_NUMBER}' 
-	sh 'docker-jenkins-agent/push.sh ${BUILD_NUMBER}'
+	      sh 'docker-jenkins-agent/push.sh ${BUILD_NUMBER}'
       } 
    }
-
-
   }  
 }

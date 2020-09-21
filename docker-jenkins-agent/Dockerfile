@@ -15,7 +15,7 @@ WORKDIR /go/src/github.com/openfaas/faas-cli
 COPY faas-cli/ .
 
 # Run a gofmt and exclude all vendored code.
-#RUN test -z "$(gofmt -l $(find . -type f -name '*.go' -not -path "./vendor/*"))" || { echo "Run \"gofmt -s -w\" on your Golang code"; exit 1; }
+RUN test -z "$(gofmt -l $(find . -type f -name '*.go' -not -path "./vendor/*"))" || { echo "Run \"gofmt -s -w\" on your Golang code"; exit 1; }
 
 # ldflags "-s -w" strips binary
 # ldflags -X injects commit version into binary
@@ -32,17 +32,17 @@ RUN VERSION=$(git describe --all --exact-match `git rev-parse HEAD` | grep tags 
     -a -installsuffix cgo -o faas-cli
 
 # CICD stage
-FROM alpine:3.12 as root
+# FROM alpine:3.12 as root
 
-RUN apk --no-cache add ca-certificates git
+# RUN apk --no-cache add ca-certificates git
 
-WORKDIR /home/app
+# WORKDIR /home/app
 
-COPY --from=builder /go/src/github.com/openfaas/faas-cli/faas-cli               /usr/bin/
+# COPY --from=builder /go/src/github.com/openfaas/faas-cli/faas-cli               /usr/bin/
 
-ENV PATH=$PATH:/usr/bin/
+# ENV PATH=$PATH:/usr/bin/
 
-ENTRYPOINT [ "faas-cli" ]
+# ENTRYPOINT [ "faas-cli" ]
 
 # JENKINS AGENT
 FROM stifstof/jnlp-slave-arm:latest
@@ -75,9 +75,9 @@ RUN service docker start
 RUN export PATH="$PATH:/usr/bin/docker"
 RUN docker --version
 
-# Install faas-cli from root image
-COPY --from=root /usr/bin/faas-cli /usr/bin/faas-cli
+# INSTALL FAAS-CLI
+#COPY --from=root /usr/bin/faas-cli /usr/bin/faas-cli
+COPY --from=builder /go/src/github.com/openfaas/faas-cli/faas-cli               /usr/bin/
 RUN ln -sf /usr/bin/faas-cli /usr/local/bin/faas
 ENV PATH=$PATH:/usr/bin/
 RUN faas-cli
-

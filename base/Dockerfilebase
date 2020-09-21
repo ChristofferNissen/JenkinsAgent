@@ -1,7 +1,4 @@
-#FROM arm32v7/openjdk
 FROM ubuntu:18.04
-
-#RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 
 
 # OPENJDK
 RUN apt-get update

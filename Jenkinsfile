@@ -1,16 +1,12 @@
 pipeline {
-  
   agent {
     label 'arm'
   }
-
   environment {
     docker_username='stifstof'
     test_server='91.100.23.100'
   }
-
   stages {
-
     stage('clone down') {
       steps {
 	      //sh 'git clone https://github.com/openfaas/faas-cli.git'
@@ -25,7 +21,6 @@ pipeline {
         }
       }
     }
-    
     stage('Build docker') {
       options {
         skipDefaultCheckout()
@@ -40,7 +35,6 @@ pipeline {
         sh 'docker-jenkins-agent/build.sh ${BUILD_NUMBER}'
       }
     }
-
     stage('Push to Dockerhub') {
       options {
         skipDefaultCheckout()
